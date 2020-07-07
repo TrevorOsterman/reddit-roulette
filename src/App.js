@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import Button from "react-bootstrap/Button";
 
@@ -12,23 +12,21 @@ const urlOptions = {
   },
 };
 
-let sub = "";
-
-const getPost = () => {
-  fetch(randomPost, urlOptions)
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("clicked");
-      console.log(data);
-      sub = data[0].children[0].data.subreddit;
-    })
-    .catch((e) => console.log(e));
-};
-
 function App() {
+  const [subreddit, setSubreddit] = useState("");
+  const getPost = () => {
+    fetch(randomPost, urlOptions)
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response[0].data.children[0].data);
+        setSubreddit(response[0].data.children[0].data.subreddit);
+      })
+      .catch((e) => console.log(e));
+  };
+
   return (
     <div className="App">
-      <span>{sub}</span>
+      <span>{subreddit}</span>
       <Button variant="primary" onClick={getPost}>
         Click
       </Button>
