@@ -19,14 +19,19 @@ function App() {
       .then((response) => response.json())
       .then((response) => {
         console.log(response[0].data.children[0].data);
-        setSubreddit(response[0].data.children[0].data.subreddit);
+        if (response[0].data.children[0].data.post_hint === "image") {
+          setSubreddit(response[0].data.children[0].data.url);
+        } else {
+          getPost();
+        }
+        // setSubreddit(response[0].data.children[0].data.subreddit);
       })
       .catch((e) => console.log(e));
   };
 
   return (
     <div className="App">
-      <span>{subreddit}</span>
+      <img src={subreddit} className="post-image" />
       <Button variant="primary" onClick={getPost}>
         Click
       </Button>

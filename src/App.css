@@ -5,3 +5,7 @@
 * {
   box-sizing: border-box;
 }
+
+.post-image {
+  max-height: 500px;
+}
