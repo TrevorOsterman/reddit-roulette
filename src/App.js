@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
 
 const randomPost =
   "https://cors-anywhere.herokuapp.com/http://www.reddit.com/r/random/random.json";
@@ -31,10 +32,14 @@ function App() {
 
   return (
     <div className="App">
-      <img src={subreddit} className="post-image" />
-      <Button variant="primary" onClick={getPost}>
-        Click
-      </Button>
+      <Card>
+        <Card.Img variant="top" src={subreddit} className="post-image" />
+        <Card.Body>
+          <Button variant="primary" onClick={getPost}>
+            Click
+          </Button>
+        </Card.Body>
+      </Card>
     </div>
   );
 }
