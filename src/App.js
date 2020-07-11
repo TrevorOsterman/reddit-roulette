@@ -14,14 +14,14 @@ const urlOptions = {
 };
 
 function App() {
-  const [subreddit, setSubreddit] = useState("");
+  const [imgURL, setImgURL] = useState("");
   const getPost = () => {
     fetch(randomPost, urlOptions)
       .then((response) => response.json())
       .then((response) => {
         console.log(response[0].data.children[0].data);
         if (response[0].data.children[0].data.post_hint === "image") {
-          setSubreddit(response[0].data.children[0].data.url);
+          setImgURL(response[0].data.children[0].data.url);
         } else {
           getPost();
         }
@@ -33,7 +33,7 @@ function App() {
   return (
     <div className="App">
       <Card>
-        <Card.Img variant="top" src={subreddit} className="post-image" />
+        <Card.Img variant="top" src={imgURL} className="post-image" />
         <Card.Body>
           <Button variant="primary" onClick={getPost}>
             Click
