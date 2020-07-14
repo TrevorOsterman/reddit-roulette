@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./App.css";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
@@ -13,35 +13,55 @@ const urlOptions = {
   },
 };
 
-function App() {
-  const [imgURL, setImgURL] = useState("");
-  const getPost = () => {
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      post: {
+        url: "",
+      },
+    };
+  }
+
+  getPost = () => {
     fetch(randomPost, urlOptions)
       .then((response) => response.json())
       .then((response) => {
         console.log(response[0].data.children[0].data);
         if (response[0].data.children[0].data.post_hint === "image") {
-          setImgURL(response[0].data.children[0].data.url);
+          this.setState({
+            post: { url: response[0].data.children[0].data.url },
+          });
         } else {
-          getPost();
+          this.getPost();
         }
         // setSubreddit(response[0].data.children[0].data.subreddit);
       })
       .catch((e) => console.log(e));
   };
 
-  return (
-    <div className="App">
-      <Card>
-        <Card.Img variant="top" src={imgURL} className="post-image" />
-        <Card.Body>
-          <Button variant="primary" onClick={getPost}>
-            Click
-          </Button>
-        </Card.Body>
-      </Card>
-    </div>
-  );
+  componentDidMount() {
+    this.getPost();
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <Card>
+          <Card.Img
+            variant="top"
+            src={this.state.post.url}
+            className="post-image"
+          />
+          <Card.Body>
+            <Button variant="primary" onClick={this.getPost}>
+              Click
+            </Button>
+          </Card.Body>
+        </Card>
+      </div>
+    );
+  }
 }
 
 export default App;
